@@ -4,6 +4,7 @@ import matcher.NameType;
 import matcher.SimilarityChecker;
 import matcher.Util;
 import matcher.classifier.ClassifierUtil;
+import matcher.config.Config;
 
 public final class MethodVarInstance implements Matchable<MethodVarInstance> {
 	MethodVarInstance(MethodInstance method, boolean isArg, int index, int lvIndex, int asmIndex,
@@ -99,20 +100,20 @@ public final class MethodVarInstance implements Matchable<MethodVarInstance> {
 		if (type.mapped && mappedName != null) {
 			// MAPPED_*, local name available
 			ret = mappedName;
-		} else if (type.mapped && matchedInstance != null && matchedInstance.mappedName != null) {
+		} else if (type.mapped && matchedInstance != null && matchedInstance.mappedName != null && Config.isMergeMappedMatches()) {
 			// MAPPED_*, remote name available
 			ret = matchedInstance.mappedName;
 		} else if (type.mapped && !nameObfuscated && hasValidOrigName()) {
 			// MAPPED_*, local deobf
 			ret = origName;
-		} else if (type.mapped && matchedInstance != null && !matchedInstance.nameObfuscated) {
+		} else if (type.mapped && matchedInstance != null && !matchedInstance.nameObfuscated && Config.isMergeMappedMatches()) {
 			// MAPPED_*, remote deobf
 			ret = matchedInstance.origName;
 		} else if (type.isAux() && auxName != null && auxName.length > type.getAuxIndex() && auxName[type.getAuxIndex()] != null) {
 			ret = auxName[type.getAuxIndex()];
-		} else if (type.isAux() && matchedInstance != null && matchedInstance.auxName != null && matchedInstance.auxName.length > type.getAuxIndex() && matchedInstance.auxName[type.getAuxIndex()] != null) {
+		} else if (type.isAux() && matchedInstance != null && matchedInstance.auxName != null && matchedInstance.auxName.length > type.getAuxIndex() && matchedInstance.auxName[type.getAuxIndex()] != null && Config.isMergeMappedMatches()) {
 			ret = matchedInstance.auxName[type.getAuxIndex()];
-		} else if (type.tmp && matchedInstance != null && matchedInstance.tmpName != null) {
+		} else if (type.tmp && matchedInstance != null && matchedInstance.tmpName != null && Config.isMergeMappedMatches()) {
 			// MAPPED_TMP_* with obf name or TMP_*, remote name available
 			ret = matchedInstance.tmpName;
 		} else if ((type.tmp || locTmp) && tmpName != null) {

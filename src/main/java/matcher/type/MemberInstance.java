@@ -3,6 +3,7 @@ package matcher.type;
 import matcher.NameType;
 import matcher.SimilarityChecker;
 import matcher.Util;
+import matcher.config.Config;
 import org.objectweb.asm.Opcodes;
 
 import java.util.Collections;
@@ -55,12 +56,12 @@ public abstract class MemberInstance<T extends MemberInstance<T>> implements Mat
 		} else if (type.mapped && !isNameObfuscated()) {
 			// MAPPED_*, local deobf
 			ret = origName;
-		} else if (type.mapped && matchedInstance != null && !matchedInstance.isNameObfuscated()) {
+		} else if (type.mapped && matchedInstance != null && !matchedInstance.isNameObfuscated() && Config.isMergeMappedMatches()) {
 			// MAPPED_*, remote deobf
 			ret = matchedInstance.origName;
 		} else if (type.isAux() && cls.isInput() && (ret = getAuxName(type.getAuxIndex())) != null) {
 			// *_AUX*, aux available
-		} else if (type.tmp && cls.isInput() && (ret = getTmpName()) != null) {
+		} else if (type.tmp && cls.isInput() && (ret = getTmpName()) != null && Config.isMergeMappedMatches()) {
 			// MAPPED_TMP_* with obf name or TMP_*, remote name available
 		} else if ((type.tmp || locTmp) && hierarchyData != null && hierarchyData.tmpName != null) {
 			// MAPPED_TMP_* or MAPPED_LOCTMP_* with obf name or TMP_* or LOCTMP_*, local name available
@@ -246,7 +247,7 @@ public abstract class MemberInstance<T extends MemberInstance<T>> implements Mat
 
 		if (hierarchyData.mappedName != null) {
 			return hierarchyData.mappedName;
-		} else if (hierarchyData.matchedHierarchy != null && hierarchyData.matchedHierarchy.mappedName != null) {
+		} else if (hierarchyData.matchedHierarchy != null && hierarchyData.matchedHierarchy.mappedName != null && Config.isMergeMappedMatches()) {
 			return hierarchyData.matchedHierarchy.mappedName;
 		}
 
@@ -288,7 +289,7 @@ public abstract class MemberInstance<T extends MemberInstance<T>> implements Mat
 		} else if (hierarchyData.matchedHierarchy != null
 				&& hierarchyData.matchedHierarchy.auxName != null
 				&& hierarchyData.matchedHierarchy.auxName.length > index
-				&& hierarchyData.matchedHierarchy.auxName[index] != null) {
+				&& hierarchyData.matchedHierarchy.auxName[index] != null && Config.isMergeMappedMatches()) {
 			return hierarchyData.matchedHierarchy.auxName[index];
 		}
 
