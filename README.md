@@ -2,7 +2,7 @@
 
 A tool used for matching two jars using a score-based matching system.
 
-Forked from [FabricMC/Matcher](https://github.com/FabricMC/Matcher), a derivative of [sfPlayer1/Matcher](https://github.com/sfPlayer1/Matcher).
+Forked from [skyrising/Matcher](https://github.com/skyrising/Matcher) and [FabricMC/Matcher](https://github.com/FabricMC/Matcher), a derivative of [sfPlayer1/Matcher](https://github.com/sfPlayer1/Matcher).
 
 ### How do I use it
 
