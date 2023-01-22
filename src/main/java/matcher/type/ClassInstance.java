@@ -6,6 +6,7 @@ import matcher.Util;
 import matcher.bcremap.AsmClassRemapper;
 import matcher.bcremap.AsmRemapper;
 import matcher.classifier.ClassifierUtil;
+import matcher.config.Config;
 import matcher.type.Signature.ClassSignature;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -116,7 +117,7 @@ public final class ClassInstance implements Matchable<ClassInstance> {
 			// MAPPED_*, local name available
 			ret = mappedName;
 			fromMatched = false;
-		} else if (type.mapped && matchedClass != null && matchedClass.mappedName != null) {
+		} else if (type.mapped && matchedClass != null && matchedClass.mappedName != null && Config.isMergeMappedMatches()) {
 			// MAPPED_*, remote name available
 			ret = matchedClass.mappedName;
 			fromMatched = true;
@@ -124,17 +125,17 @@ public final class ClassInstance implements Matchable<ClassInstance> {
 			// MAPPED_*, local deobf
 			ret = getInnerName0(getName());
 			fromMatched = false;
-		} else if (type.mapped && matchedClass != null && !matchedClass.nameObfuscated) {
+		} else if (type.mapped && matchedClass != null && !matchedClass.nameObfuscated && Config.isMergeMappedMatches()) {
 			// MAPPED_*, remote deobf
 			ret = matchedClass.getInnerName0(matchedClass.getName());
 			fromMatched = true;
 		} else if (type.isAux() && auxName != null && auxName.length > type.getAuxIndex() && auxName[type.getAuxIndex()] != null) {
 			ret = auxName[type.getAuxIndex()];
 			fromMatched = false;
-		} else if (type.isAux() && matchedClass != null && matchedClass.auxName != null && matchedClass.auxName.length > type.getAuxIndex() && matchedClass.auxName[type.getAuxIndex()] != null) {
+		} else if (type.isAux() && matchedClass != null && matchedClass.auxName != null && matchedClass.auxName.length > type.getAuxIndex() && matchedClass.auxName[type.getAuxIndex()] != null && Config.isMergeMappedMatches()) {
 			ret = matchedClass.auxName[type.getAuxIndex()];
 			fromMatched = true;
-		} else if (type.tmp && matchedClass != null && matchedClass.tmpName != null) {
+		} else if (type.tmp && matchedClass != null && matchedClass.tmpName != null && Config.isMergeMappedMatches()) {
 			// MAPPED_TMP_* with obf name or TMP_*, remote name available
 			ret = matchedClass.tmpName;
 			fromMatched = true;

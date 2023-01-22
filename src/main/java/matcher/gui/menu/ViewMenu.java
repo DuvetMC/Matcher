@@ -82,6 +82,10 @@ public class ViewMenu extends Menu implements IGuiComponent {
 		useDiffColorsItem = GuiUtil.addCheckMenuItem(this, "Use diff colors",
 				gui.isUseDiffColors(),
 				gui::setUseDiffColors);
+		
+		mergeMatchedMappingsItem = GuiUtil.addCheckMenuItem(this, "Merge matched mappings",
+				Config.isMergeMappedMatches(),
+				Config::setMergeMappedMatches);
 
 		mapCodeViewsItem = GuiUtil.addCheckMenuItem(this, "Map code views",
 				gui.getNameType() != gui.getNameType().withMapped(false),
@@ -135,6 +139,7 @@ public class ViewMenu extends Menu implements IGuiComponent {
 
 		useTmpNamesItem.setSelected(gui.getNameType() != gui.getNameType().withTmp(false));
 		useDiffColorsItem.setSelected(gui.isUseDiffColors());
+		mergeMatchedMappingsItem.setSelected(Config.isMergeMappedMatches());
 		mapCodeViewsItem.setSelected(gui.getNameType() != gui.getNameType().withMapped(false));
 
 		for (Toggle toggle : decompilerToggleGroup.getToggles()) {
@@ -153,6 +158,7 @@ public class ViewMenu extends Menu implements IGuiComponent {
 	private CheckMenuItem[] useAuxNamesItems;
 	private CheckMenuItem useTmpNamesItem;
 	private CheckMenuItem useDiffColorsItem;
+	private CheckMenuItem mergeMatchedMappingsItem;
 	private CheckMenuItem mapCodeViewsItem;
 	private CheckMenuItem useDarkThemeItem;
 	private ToggleGroup decompilerToggleGroup;

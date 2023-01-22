@@ -47,6 +47,8 @@ public class Config {
 	public static boolean getDarkTheme() {
 		return darkTheme;
 	}
+	
+	public static boolean isMergeMappedMatches() { return mergeMappedMatches; }
 
 	public static boolean setProjectConfig(ProjectConfig config) {
 		if (!config.isValid()) return false;
@@ -75,6 +77,10 @@ public class Config {
 		uidConfig = config;
 
 		return true;
+	}
+	
+	public static void setMergeMappedMatches(boolean value) {
+		mergeMappedMatches = value;
 	}
 
 	public static void saveAsLast() {
@@ -143,4 +149,5 @@ public class Config {
 	private static UidConfig uidConfig = new UidConfig();
 
 	private static boolean darkTheme = true;
+	private static boolean mergeMappedMatches = true;
 }
